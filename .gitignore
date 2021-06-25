@@ -1,0 +1,12 @@
+node_modules/
+*\node_modules
+*JMdict_e
+*\jmdict.json
+*\links.csv
+*\jpn_indices.csv
+*\eng_indices.csv
+*\eng_sentences*
+*\jpn_sentences*
+*\sentences_with_audio.csv
+*\keywordSentences.json
+*\sentenceLinks.json

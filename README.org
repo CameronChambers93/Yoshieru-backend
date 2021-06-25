@@ -1,0 +1,214 @@
+* API
+** Tools Used
++ NodeJS:
+  - Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
+  - We will be using this to run our javascript code on the server
+  - We are using nodemon to run the application and babel-node to transpile our application from ES6 to ES5 on the run
++ Express:
+  - This is a web application framework for Node.js which we will be using as a server for our API
+  - Robust routing
+  - Focus on high performance
+  - Super-high test coverage
+  - HTTP helpers (redirection, caching, etc)
+  - View system supporting 14+ template
+  - Content negotiation
+  - Executable for generating applications quickly
++ Postman:
+  - A Chrome app that we'll use to practically test our API.
++ ES6:
+  - ES6, officially known as ECMAScript 2015, is a scripting-language specification standardized created to standardize JavaScript.
+  - babel-node will transpile our application from ES6 to ES5 when necessary
++ Other tools:
+  - babel-preset-env, babel-cli, babel-core:
+      For transpiling the application to ES5
+  - body-parser:
+      Node.js body parsing middleware. Parse incoming request bodies before handlers, available under the req.body property.
+  - morgan:
+      HTTP request logger middleware for node.js
+  - nodemon:
+      Automatically restarts the node application when file changes in the directory are detected
+      
+** RESTful API Notes
+A RESTful API is based on representational state transfer (REST) technology, an architectural 
+style/approach to communications often used in web services development.
+
+- The following conditions determine an API as RESTful:
+  + Client-Server-Based:
+    Client/Server apps MUST be able to evolve seperately without any dependency on each other. A client should know only resource URLs
+  + Stateless operations:
+    Inspired by HTTP, make all client-server interaction stateless. The server will not store info about HTTP requests, i.e. session-less. If a client app needs to be a stateful app, such as in a one time login page, each request from the client should contain all the information necessary to service the request (authentication and authorization details).
+  + RESTful resource caching: 
+    Caching is encouraged; will be applied to resources when applicable. Caching can be implemented on the client side.
+  + Use of a uniform interface:
+    - You MUST decide the APIs interface for resources which are exposed to consumers, and follow them religiously.
+    - A resource in the system should have only one logical URI and that should provide a way to fetch related or additional data.
+    - It's better to synonymise a resource with a web page.
+    - Any single resource should not be too large and contain each and everything in its representation. Whenever relevant, a resource should contain links (HATEOAS) pointing to relative URIs to fetch related information.
+    - The resource representations across the system should follow certain guidelines such as naming conventions, link formats, or data format (xml/json)
+    - All resources should be accessible through a common approach such as HTTP GET and similarly modified using a consistent approach.
+  + Layered System
+    A layered system is a system comprised of layers, with each layer having a specific functionality and responsibility.
+    If we think of a Model View Controller framework, each layer has its own responsibilities, with the models comprising
+    how the data should be formed, the controller focusing on the incoming actions and the view focusing on the output.
+    Each layer is separate but also interacts with the other. In REST API design, the same principle holds true, with 
+    different layers of the architecture working together to build a hierarchy that helps create a more scalable and 
+    modular application.
+  + Code on Demand (optional)
+    Perhaps the least known of the six constraints, and the only optional constraint, Code on Demand allows for code
+    or applets to be transmitted via the API for use within the application. In essence, it creates a smart application
+    that is no longer solely dependent on its own code structure. However, perhaps because its ahead of its time, Code 
+    on Demand has struggled for adoption as Web APIs are consumed across multiple languages and the transmission of code
+    raises security questions and concerns. (For example, the directory would have to be writeable, and the firewall would
+    have to let what may normally be restricted content through.)
+* VueJS
+** Notes
+   + Use filters to pipe the results of a function through another function: "{{ k_ele | undercase | url }}"
+   + Use the v-on directive to attach event listeners that invoke methods on our Vue instances:
+   + Computed Properties:
+     - Computed properties are caches based on their dependencies
+       - 
+** Data and Methods
+   
+   When a Vue instance is created, it adds all the properties found in its data object to Vue's reactivity system.
+   When the values of those properties change, the view will "react", updating to match the new values. It should be
+   noted that properties in data are only reactive if they existed when the instance was created. If you know you'll 
+   need a property later, but it starts out empty or non-existent, you'll need to set some initial value. For example:
+
+#+BEGIN_SRC javascript
+    data: {
+      newTodoText: '',
+      visitCount: 0,
+      hideCompletedTodos: false,
+      todos: [],
+      error: null
+    }
+#+END_SRC
+  
+   In addition to data properties, Vue instances expose a number of useful instance properties and methods. These are
+   prefixed with $ to differentiate them from user-defined properties. For example:
+
+#+BEGIN_SRC javascript
+   var data = { a: 1 }
+   var vm = new Vue({
+     el: '#example',
+     data: data
+   })
+   
+   vm.$data === data // => true
+   vm.$el === document.getElementById('example') // => true
+   
+   // $watch is an instance method
+   vm.$watch('a', function (newValue, oldValue) {
+     // This callback will be called when `vm.a` changes
+   })
+#+END_SRC
+** Template Syntax
+*** Text
+      The most basic form of data binding is text interpolation using the “Mustache” syntax (double curly braces):
+
+        <span>Message: {{ msg }}</span>
+
+      The mustache tag will be replaced with the value of the msg property on the corresponding data object. It will 
+      also be updated whenever the data object’s msg property changes.
+
+      You can also perform one-time interpolations that do not update on data change by using the v-once directive,
+      but keep in mind this will also affect any other bindings on the same node:
+
+        <span v-once>This will never change: {{ msg }}</span>
+
+*** Raw HTML
+      The double mustaches interprets the data as plain text, not HTML. In order to output real HTML, you will need to use the v-html directive:
+
+        <p>Using mustaches: {{ rawHtml }}</p>
+	<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+
+      The contents of the span will be replaced with the value of the rawHtml property, interpreted as plain HTML - data bindings 
+      are ignored. Note that you cannot use v-html to compose template partials, because Vue is not a string-based templating engine. 
+      Instead, components are preferred as the fundamental unit for UI reuse and composition.
+
+        Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to XSS vulnerabilities.
+	Only use HTML interpolation on trusted content and never on user-provided content.
+
+*** Attributes
+      
+      Mustaches cannot be used inside HTML attributes. Instead, use a v-bind directive:
+
+        <div v-bind:id="dynamicId"></div>
+
+      In the case of boolean attributes, where their mere existence implies true, v-bind works a little differently. In this example:
+      
+        <button v-bind:disabled="isButtonDisabled">Button</button>
+
+      If isButtonDisabled has the value of null, undefined, or false, the disabled attribute will not even be included in the rendered <button> element.
+
+*** Using JavaScript Expressions
+
+      So far we’ve only been binding to simple property keys in our templates. But Vue.js actually supports the full power of 
+      JavaScript expressions inside all data bindings:
+
+        {{ number + 1 }}
+
+	{{ ok ? 'YES' : 'NO' }}
+
+	{{ message.split('').reverse().join('') }}
+
+        <div v-bind:id="'list-' + id"></div>
+
+      These expressions will be evaluated as JavaScript in the data scope of the owner Vue instance. One restriction is that each
+      binding can only contain one single expression, so the following will NOT work:
+        
+        <!-- this is a statement, not an expression: -->
+	{{ var a = 1 }}
+	
+	<!-- flow control won't work either, use ternary expressions -->
+	{{ if (ok) { return message } }}
+	
+      Template expressions are sandboxed and only have access to a whitelist of globals such as Math and Date. You should not attempt
+      to access user defined globals in template expressions.
+
+*** Directives
+
+      Directives are special attributes with the v- prefix. Directive attribute values are expected to be a single JavaScript
+      expression (with the exception of v-for, which will be discussed later). A directive’s job is to reactively apply side
+      effects to the DOM when the value of its expression changes.
+
+      For instance:
+      
+        <p v-if="seen">Now you see me</p>
+
+      Here, the v-if directive would remove/insert the <p> element based on the truthiness of the value of the expression seen.
+*** Arguments
+
+      Some directives can take an “argument”, denoted by a colon after the directive name. For example, the v-bind
+      directive is used to reactively update an HTML attribute:
+
+        <a v-bind:href="url"> ... </a>
+
+      Here href is the argument, which tells the v-bind directive to bind the element’s href attribute to the value of the expression url.
+
+      Another example is the v-on directive, which listens to DOM events:
+
+        <a v-on:click="doSomething"> ... </a>
+
+      Here the argument is the event name to listen to.
+
++ Audio Transcription
+  + Appearance
+  + Functionality
++ Flashcards
+  + Appearance
+  + Functionality
++ Dictionary
+  + Appearance
+  + Functionality
+* Web App
+** Tools Used
+   - vue/cli
+       A simple CLI for scaffolding Vue.js projects
+   - webpack-simple
+       Generates a webpack config with simple defaults and extendable options.
+   - vue-spa
+       .NET Core 2.1 Vue CLI Bootstrap App
+   - Axios
+       Promise based HTTP client for the browser and node.js
+   - vue-router
