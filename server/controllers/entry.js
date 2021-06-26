@@ -1,6 +1,4 @@
-import model from '../models';
-
-const { Entry } = model;
+import Entry from '../models/entry.js';
 
 class Entries {
   static list(req, res) {

@@ -1,5 +1,8 @@
 import fs from 'fs';
-const audioDict = JSON.parse(fs.readFileSync('C:/docs/Projects/JapanApp/server/files/audioTranslations.json'))
+
+const ROOT_DIRECTORY = process.cwd()
+
+const audioDict = JSON.parse(fs.readFileSync( ROOT_DIRECTORY + '/server/files/audioTranslations.json'))
 
 
 class Audio {

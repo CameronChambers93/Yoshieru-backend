@@ -1,6 +1,3 @@
-import model from '../models';
-
-
 class Audios {
   static list(req, res) {
 		var randomNumber = Math.floor(Math.random() * 100) + 1  

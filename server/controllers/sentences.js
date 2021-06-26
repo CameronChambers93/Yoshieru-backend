@@ -1,9 +1,6 @@
 import fs from 'fs';
-
-const ROOT_DIR = process.cwd()
-
-const keywordDict = JSON.parse(fs.readFileSync( ROOT_DIR + '/server/files/keywordSentences.json'))
-const sentenceLinks = JSON.parse(fs.readFileSync( ROOT_DIR + '/server/files/sentenceLinks.json'))
+const keywordDict = JSON.parse(fs.readFileSync('/home/ec2-user/server/server/files/keywordSentences.json'))
+const sentenceLinks = JSON.parse(fs.readFileSync('/home/ec2-user/server/server/files/sentenceLinks.json'))
 
 
 let posDict = {'adj-i': '形容詞',
@@ -40,7 +37,7 @@ let posDict = {'adj-i': '形容詞',
 接頭詞 - prefix
 */
 
-class JMDict {
+class Sentences {
     static findExamples(req, res) {
         let text = req.query.k_ele
         res.status(200).send(keywordDict[text])
@@ -51,6 +48,12 @@ class JMDict {
         res.status(200).send(sentenceLinks[id])
     }
 
+    static getRandomSentence(req, res) {
+        let text = req.query.k_ele;
+	let ids = keywordDict[text];
+	let id = ids[Math.floor(Math.random() * ids.length)];
+	res.status(200).send(sentenceLinks[id]);
+    }
 }
 
-export default JMDict;
+export default Sentences;

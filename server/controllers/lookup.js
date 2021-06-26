@@ -1,6 +1,4 @@
-import model from '../models';
-
-const { Lookup } = model;
+import Lookup from '../models/lookup.js';
 
 class Lookups {
     static list(req, res) {

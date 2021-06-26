@@ -1,7 +1,6 @@
 node_modules/
 *\node_modules
-*JMdict_e
-*\jmdict.json
+server/files/JMdict*
 *\links.csv
 *\jpn_indices.csv
 *\eng_indices.csv
