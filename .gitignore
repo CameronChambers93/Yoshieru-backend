@@ -10,3 +10,4 @@ server/files/JMdict*
 *\keywordSentences.json
 *\sentenceLinks.json
 server/dict*
+server/dist*
