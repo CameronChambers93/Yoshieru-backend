@@ -8,8 +8,10 @@ import ms from 'mediaserver'
 import express from 'express'
 import axios from 'axios';
 import parseString from 'xml2js';
+import expressStaticGzip from 'express-static-gzip';
 const ROOT_DIRECTORY = process.cwd()
-const JMDictZipped = fs.readFileSync( ROOT_DIRECTORY + '/server/files/JMdict_e.json.gz', 'utf-8')
+let JMDictZipped = {}
+fs.readFile( ROOT_DIRECTORY + '/server/files/JMdict_e.json.gz', (res) => {JMDictZipped = res})
 const EasyNews = JSON.parse(fs.readFileSync( ROOT_DIRECTORY + '/server/files/easynews.json', 'utf-8'))
 export default (app) => {
 
@@ -49,7 +51,7 @@ export default (app) => {
             })
         })
     })
-
-    app.use(express.static('/home/ec2-user/server/server/dist'));
+    app.use("/", expressStaticGzip( ROOT_DIRECTORY + "/server/files/"))
+    app.use(express.static( ROOT_DIRECTORY + '/server/dist'));
 };
 

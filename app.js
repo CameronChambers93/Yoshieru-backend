@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import routes from './server/routes/index.js';
 
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = 5000;
 const app = express() // setup express application
 const server = http.createServer(app);
 
@@ -14,7 +14,9 @@ app.use(logger('dev')); // log requests to the console
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-  
+
+import compression from 'compression';
+app.use(compression());  
 
 // Add headers
 app.use((req, res, next) => {

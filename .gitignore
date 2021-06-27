@@ -9,3 +9,4 @@ server/files/JMdict*
 *\sentences_with_audio.csv
 *\keywordSentences.json
 *\sentenceLinks.json
+server/dict*

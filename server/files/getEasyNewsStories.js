@@ -5,7 +5,7 @@ import path from 'path'
 
 
 let CURRENT_DIRECTORY = process.cwd()
-const FILENAME = path.join(CURRENT_DIRECTORY, "easynews.json")
+const FILENAME = path.join(CURRENT_DIRECTORY, "/easynews.json")
 
 const getNewStories = async function(stories) {
 	return new Promise(async resolve => {
